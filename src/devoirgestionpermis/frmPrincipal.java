@@ -10,6 +10,7 @@ import ClassesMetier.GstAutoEcole;
 import ClassesMetier.Test;
 import java.awt.Event;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -267,14 +268,38 @@ public class frmPrincipal extends javax.swing.JFrame {
                    
                  Eleve e1 = gst.GetUnEleve(lstEleves.getSelectedIndex());
                  cboElevesInscrits.addItem(e1.getNomEleve());
+                 
+                 Test t = gst.GetUnTest(lstTests.getSelectedIndex());
+                //Ajout a un salarié , un test
+                 e1.AjouterUnTest(t);
+                 
+                 //JOptionPane.showMessageDialog(this, "Sélectionnez un test"+gst.GetUnEleve(lstEleves.getSelectedIndex()).getSesTests());
+                 
+                 Test t1 = gst.GetUnTest(lstTests.getSelectedIndex());
+                        Vector v = new Vector();
+                        v.add(t.getNomTest());
+                        v.add(t.getNbFautes());
+                        v.add(t.getTermine());
+                        dtmTests.addRow(v);
+           
+                 
                }
-           }
+                 
+               else
+               {
+                   Eleve e1 = gst.GetUnEleve(lstEleves.getSelectedIndex());
+                 cboElevesInscrits.addItem(e1.getNomEleve());
+                 
+                
+                          
+                 
+               }
        }
-        //gst.GetUnEleve(lstEleves.getSelectedIndex())
+     
         
         
         
-        
+       }
     }//GEN-LAST:event_btnInscriptionActionPerformed
 
     private void btnModificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificationActionPerformed
