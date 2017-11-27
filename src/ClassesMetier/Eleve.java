@@ -62,7 +62,23 @@ public class Eleve
     {
         boolean trouve = false;
         // A vous de jouer
+        for (Test t: this.sesTests)
+        {
+//            if(unTest.getNomTest().compareTo(this.sesTests.())==0)
+//            {
+//                
+//            }
+        }
         
+//  int trouve = 0;
+//            for(int i = 0 ; i < lesCompetences.size(); i ++)
+//            {
+//                if((uneComp.getNomComp().compareTo(lesCompetences.get(i).getNomComp()) == 0)        )
+//                {
+//                    trouve = i;
+//                    break;
+//                }
+//            }
         
         return trouve;
     }

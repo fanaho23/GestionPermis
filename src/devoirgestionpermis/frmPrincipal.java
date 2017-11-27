@@ -29,6 +29,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     DefaultListModel dlmTests;
     // Pour le JTABLE des élèves
     DefaultTableModel dtmTests;
+    Vector v = null;
     /**
      * Creates new form frmPrincipal
      */
@@ -212,19 +213,38 @@ public class frmPrincipal extends javax.swing.JFrame {
         Test test5 = new Test(5,"Test n°5", 0, false);
         
         // Ajouter les élèves au gestionnaire
-        
-        
+       gst.AjouterUnEleve(eleve1);
+       gst.AjouterUnEleve(eleve2);
+       gst.AjouterUnEleve(eleve3);
+       gst.AjouterUnEleve(eleve4);
+       gst.AjouterUnEleve(eleve5);
+       
+
         // Ajouter les tests au gestionnaire
-        
-        
+       gst.AjouterUnTest(test1);
+       gst.AjouterUnTest(test2);
+       gst.AjouterUnTest(test3);
+       gst.AjouterUnTest(test4);
+       gst.AjouterUnTest(test5);
         // Remplir la liste de tous les élèves
+        for (Eleve eleve : gst.getTousLesEleves())
+        {
+            dlmEleves.addElement(eleve.getNomEleve());
+         
+        }
+        lstEleves.setModel(dlmEleves);
         
         // Le contrôle graphique lstEleves
         // prend comme modèle le dlmEleves
         
 
         // Remplir la liste de tous les tests
-        
+        for (Test test: gst.getTousLesTests())
+        {
+            dlmTests.addElement(test.getNomTest());
+         
+        }
+        lstTests.setModel(dlmTests);
         
         
     }//GEN-LAST:event_formWindowOpened
@@ -233,7 +253,24 @@ public class frmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         // A vous de jouer
-        
+       if(lstEleves.getSelectedIndex()== -1){
+           JOptionPane.showMessageDialog(this,  "Selectionnez un élèves!!!");
+       }
+       else{
+           if(lstTests.getSelectedIndex()== -1){
+               JOptionPane.showMessageDialog(this, "Sélectionnez un test");
+           }
+           else{
+               
+               
+               if(gst.getLesElevesInscrits().isEmpty()){
+                   
+                 Eleve e1 = gst.GetUnEleve(lstEleves.getSelectedIndex());
+                 cboElevesInscrits.addItem(e1.getNomEleve());
+               }
+           }
+       }
+        //gst.GetUnEleve(lstEleves.getSelectedIndex())
         
         
         
