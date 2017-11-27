@@ -274,26 +274,20 @@ public class frmPrincipal extends javax.swing.JFrame {
                  e1.AjouterUnTest(t);
                  
                  //JOptionPane.showMessageDialog(this, "Sélectionnez un test"+gst.GetUnEleve(lstEleves.getSelectedIndex()).getSesTests());
-                 
-                 Test t1 = gst.GetUnTest(lstTests.getSelectedIndex());
+    
+                
+           
                         Vector v = new Vector();
                         v.add(t.getNomTest());
                         v.add(t.getNbFautes());
                         v.add(t.getTermine());
                         dtmTests.addRow(v);
-           
+                       
                  
                }
                  
-               else
-               {
-                   Eleve e1 = gst.GetUnEleve(lstEleves.getSelectedIndex());
-                 cboElevesInscrits.addItem(e1.getNomEleve());
-                 
-                
-                          
-                 
-               }
+              
+               
        }
      
         
@@ -308,15 +302,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         // A vous de jouer
         
         
-        
+              
     }//GEN-LAST:event_btnModificationActionPerformed
 
     private void cboElevesInscritsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboElevesInscritsItemStateChanged
         // TODO add your handling code here:
         
-        // A vous de jouer
-        
-        
+        // A vous de joue    
         
     }//GEN-LAST:event_cboElevesInscritsItemStateChanged
 
