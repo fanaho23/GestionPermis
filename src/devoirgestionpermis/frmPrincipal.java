@@ -228,9 +228,9 @@ public class frmPrincipal extends javax.swing.JFrame {
        gst.AjouterUnTest(test4);
        gst.AjouterUnTest(test5);
         // Remplir la liste de tous les élèves
-        for (Eleve eleve : gst.getTousLesEleves())
+        for (Eleve e : gst.getTousLesEleves())
         {
-            dlmEleves.addElement(eleve.getNomEleve());
+            dlmEleves.addElement(e.getNomEleve());
          
         }
         lstEleves.setModel(dlmEleves);
@@ -240,9 +240,9 @@ public class frmPrincipal extends javax.swing.JFrame {
         
 
         // Remplir la liste de tous les tests
-        for (Test test: gst.getTousLesTests())
+        for (Test t: gst.getTousLesTests())
         {
-            dlmTests.addElement(test.getNomTest());
+            dlmTests.addElement(t.getNomTest());
          
         }
         lstTests.setModel(dlmTests);
@@ -254,61 +254,134 @@ public class frmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         // A vous de jouer
-       if(lstEleves.getSelectedIndex()== -1){
-           JOptionPane.showMessageDialog(this,  "Selectionnez un élèves!!!");
-       }
-       else{
-           if(lstTests.getSelectedIndex()== -1){
-               JOptionPane.showMessageDialog(this, "Sélectionnez un test");
-           }
-           else{
-               
-               
-               if(gst.getLesElevesInscrits().isEmpty()){
-                   
-                 Eleve e1 = gst.GetUnEleve(lstEleves.getSelectedIndex());
-                 cboElevesInscrits.addItem(e1.getNomEleve());
-                 
-                 Test t = gst.GetUnTest(lstTests.getSelectedIndex());
-                //Ajout a un salarié , un test
-                 e1.AjouterUnTest(t);
-                 
-                 //JOptionPane.showMessageDialog(this, "Sélectionnez un test"+gst.GetUnEleve(lstEleves.getSelectedIndex()).getSesTests());
-    
-                
-           
-                        Vector v = new Vector();
-                        v.add(t.getNomTest());
-                        v.add(t.getNbFautes());
-                        v.add(t.getTermine());
-                        dtmTests.addRow(v);
-                       
-                 
-               }
-                 
-              
-               
-       }
-     
-        
-        
-        
-       }
+      if(lstEleves.getSelectedIndex() == -1)
+      {
+          JOptionPane.showMessageDialog(this, "selectionner un eleves");
+      }
+      else
+      {
+          if(lstTests.getSelectedIndex() == -1)
+            {
+                JOptionPane.showMessageDialog(this, "selectionner un test");
+            }
+          else
+            {
+                Eleve eleve = gst.GetUnEleve(lstEleves.getSelectedIndex());
+                Test test = gst.GetUnTest(lstTests.getSelectedIndex());
+                // on doit verifier si l'eleve existe
+                // s'il n'existe pas!!!!!
+                if(!gst.ExisterEleve(eleve))
+                {
+                    //Declaration d'u nouvel eleve inscrit
+                    //Eleve unNewEleve = new Eleve(eleve.getIdEleve(), eleve.getNomEleve());
+                    //Declaration d'un nouveau test pour cet eleve
+                    Test unNewTest = new Test(test.getIdTest(),test.getNomTest(),test.getNbFautes(),test.getTermine());
+                    //on ajoute le test de l'eleve
+                   // unNewEleve.AjouterUnTest(unNewTest);
+                   eleve.AjouterUnTest(unNewTest);
+                    //on ajoute l'eleve a la liste des inscrit
+                    gst.AjouterUnEleveInscrit(eleve);
+                }
+                else
+                {
+                    //l'eleve est deja inscrit
+                    //Ok mais le test pour lequel il veut s'inscire
+                    //est ce que ce test existe?
+                    //verifions , la presence du test
+                    if(eleve.VerifierPresenceTest(test))
+                        {
+                            //si le test est présent
+                            //il faut verifier s'il est terminé
+                            if(test.getTermine())
+                            {
+                                //il est terminé
+                                //Supprimer l'ancien 
+                                //et en créer un nouveau
+                                eleve.SupprimerTest(test.getIdTest());
+                                Test unNewTest = new Test(test.getIdTest(),test.getNomTest(),test.getNbFautes(),test.getTermine());
+                    //on ajoute le test de l'eleve
+                                eleve.AjouterUnTest(unNewTest);
+                            }
+                            else
+                            {
+                                //il ne l'est pas
+                                JOptionPane.showMessageDialog(this, "Impossible de se réinscrire au même test");
+                            }
+                        }
+                    else
+                        {
+                            Test unNewTest = new Test(test.getIdTest(),test.getNomTest(),test.getNbFautes(),test.getTermine());
+                    //on ajoute le test de l'eleve
+                            eleve.AjouterUnTest(unNewTest);
+                            
+                        }
+                    
+                    
+                }
+                //On remet a jour la comboBox
+                cboElevesInscrits.removeAllItems();
+                for (Eleve el: gst.getLesElevesInscrits()) {
+                    cboElevesInscrits.addItem(el.getNomEleve());
+                    
+                }
+            }
+      }
     }//GEN-LAST:event_btnInscriptionActionPerformed
 
     private void btnModificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificationActionPerformed
         // TODO add your handling code here:
         
         // A vous de jouer
-        
-        
-              
+        if(tblTests.getSelectedRow() == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Selectionner un test");
+        }
+        else
+        {
+         //on a selectionné un test
+            Eleve eleveInscrit = gst.GetUnEleveInscrit(cboElevesInscrits.getSelectedIndex());
+           Test testSelectionne = eleveInscrit.GetUnTest(tblTests.getSelectedRow());
+            testSelectionne.setNbFautes(sldNbFautes.getValue());
+            testSelectionne.setTermine(chkTermine.isSelected());
+            
+            //on remet a jour la liste des inscrits
+            while(tblTests.getRowCount()!=0)
+            {
+                dtmTests.removeRow(0);
+            }
+            
+            Vector v;
+            for (Test t : eleveInscrit.getSesTests()) {
+                     v = new Vector();
+                     v.add(t.getNomTest());
+                     v.add(t.getNbFautes());
+                     v.add(t.getTermine());
+                     dtmTests.addRow(v);
+            }
+        }              
     }//GEN-LAST:event_btnModificationActionPerformed
 
     private void cboElevesInscritsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboElevesInscritsItemStateChanged
         // TODO add your handling code here:
         
         // A vous de joue    
+        if(ItemEvent.SELECTED == evt.getStateChange())
+        {
+            //vider le Jtable
+            while(tblTests.getRowCount()!=0)
+            {
+                dtmTests.removeRow(0);
+            }
+            Eleve eleveInscrit = gst.GetUnEleveInscrit(cboElevesInscrits.getSelectedIndex());
+            Vector v;
+            for (Test t : eleveInscrit.getSesTests()) {
+                     v = new Vector();
+                     v.add(t.getNomTest());
+                     v.add(t.getNbFautes());
+                     v.add(t.getTermine());
+                     dtmTests.addRow(v);
+            }
+        }
         
     }//GEN-LAST:event_cboElevesInscritsItemStateChanged
 

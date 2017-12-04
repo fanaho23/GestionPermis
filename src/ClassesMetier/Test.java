@@ -10,7 +10,7 @@ package ClassesMetier;
  * @author User
  */
 public class Test
-{
+{ //attribue accessible qu'avec les methodes de la classe
     private int idTest;
     private String nomTest;
     private int nbFautes;

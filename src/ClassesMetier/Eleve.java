@@ -62,24 +62,16 @@ public class Eleve
     {
         boolean trouve = false;
         // A vous de jouer
-        for (Test t: this.sesTests)
+        for (Test t : this.sesTests)
         {
-//            if(unTest.getNomTest().compareTo(this.sesTests.())==0)
-//            {
-//                
-//            }
+            if(t.getIdTest() == unTest.getIdTest())
+                     {
+               trouve = true;
+               break;
+            }
         }
         
-//  int trouve = 0;
-//            for(int i = 0 ; i < lesCompetences.size(); i ++)
-//            {
-//                if((uneComp.getNomComp().compareTo(lesCompetences.get(i).getNomComp()) == 0)        )
-//                {
-//                    trouve = i;
-//                    break;
-//                }
-//            }
-        
+
         return trouve;
     }
     
@@ -90,7 +82,16 @@ public class Eleve
         boolean estTermine = false;
         // A vous de jouer
         
-        
+        for (Test t : sesTests) {
+            if(t.getIdTest()==unTest.getIdTest())
+            {
+                if(unTest.getTermine()==true)
+                {
+                    estTermine =true;
+                    break;
+                }
+            }
+        }
         
         return estTermine;
     }
@@ -101,7 +102,14 @@ public class Eleve
     {
         // A vous de jouer
         
-        
+        for (Test t : sesTests) {
+            if(t.getIdTest() == idTest )
+            {
+                sesTests.remove(t);
+                break;
+            }
+            
+        }
         
     }
 }
